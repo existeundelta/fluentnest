@@ -126,14 +126,18 @@ namespace Tests
 
             var carTypes = result.Aggs.Terms("firstLevel");
 
-            foreach (var carType in carTypes.Items)
+            foreach (var carType in carTypes.Buckets)
             {
                 var engineTypes = carType.Terms("secondLevel");
-                foreach (var engineType in engineTypes.Items)
+                foreach (var engineType in engineTypes.Buckets)
                 {
-                    var priceSum = (decimal)engineType.Sum("priceSum").Value;
-                    Check.That(priceSum).IsPositive();
-                }               
+                    var value = engineType.Sum("priceSum").Value;
+                    if (value != null)
+                    {
+                        var priceSum = (decimal)value;
+                        Check.That(priceSum).IsPositive();
+                    }
+                }
             }
         }
 

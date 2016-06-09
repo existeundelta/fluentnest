@@ -82,25 +82,25 @@ namespace FluentNest
         }
 
 
-        public static IList<DateHistogramItem> GetDateHistogram<T>(this KeyedBucket item,
+        public static IList<DateHistogramBucket> GetDateHistogram<T>(this KeyedBucket item,
             Expression<Func<T, Object>> fieldGetter)
         {
             var histogramItem = item.DateHistogram(GetName(fieldGetter));
-            return histogramItem.Items;
+            return histogramItem.Buckets;
         }
 
-        public static IList<DateHistogramItem> GetDateHistogram<T>(this AggregationsHelper aggs,
+        public static IList<DateHistogramBucket> GetDateHistogram<T>(this AggregationsHelper aggs,
             Expression<Func<T, Object>> fieldGetter)
         {
             var histogramItem = aggs.DateHistogram(GetName(fieldGetter));
-            return histogramItem.Items;
+            return histogramItem.Buckets;
         }
 
-        public static IList<HistogramItem> GetHistogram<T>(this AggregationsHelper aggs,
+        public static IList<HistogramBucket> GetHistogram<T>(this AggregationsHelper aggs,
             Expression<Func<T, Object>> fieldGetter)
         {
             var histogramItem = aggs.Histogram(GetName(fieldGetter));
-            return histogramItem.Items;
+            return histogramItem.Buckets;
         }
 
         public static QueryContainer GenerateComparisonFilter<T>(this Expression expression, ExpressionType type)

@@ -54,7 +54,7 @@ namespace Tests
             );
 
             var carTypes =
-                histogram.Aggs.GetDictionary<Car, IList<DateHistogramItem>>(x => x.CarType,
+                histogram.Aggs.GetDictionary<Car, IList<DateHistogramBucket>>(x => x.CarType,
                     v => v.GetDateHistogram<Car>(f => f.Timestamp));
 
             Check.That(carTypes).HasSize(3);
@@ -74,8 +74,8 @@ namespace Tests
                             aggs => aggs.Sum("priceSum", dField => dField.Field(field => field.Price))))));
 
             var histogram = result.Aggs.DateHistogram("by_month");
-            Check.That(histogram.Items).HasSize(10);
-            var firstMonth = histogram.Items[0];
+            Check.That(histogram.Buckets).HasSize(10);
+            var firstMonth = histogram.Buckets[0];
             var priceSum = firstMonth.Sum("priceSum");
             Check.That(priceSum.Value.Value).Equals(10d);
         }
